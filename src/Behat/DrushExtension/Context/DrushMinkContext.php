@@ -89,7 +89,6 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
         foreach ($this->users as $user) {
           $command = sprintf('user-cancel --yes %s --delete-content', $user->name);
           $this->getDrush()->run($command);
-          $this->printDebug(sprintf('cancelled user '. $user->name));
         }
       }
     }
@@ -133,7 +132,7 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
         $username = $account;
         $account = new \stdClass();
         $account->name = $username;
-        $account->pass = $pass;
+        $account->pass = $password;
       }
 
       // Check if logged in.
@@ -157,8 +156,6 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
       // If a logout link is found, we are logged in. While not perfect, this is
       // how Drupal SimpleTests currently work as well.
       if (!$this->getSession()->getPage()->findLink('Log out')) {
-        $this->showLastResponse();
-        $this->printDebug($this->getSession()->getCurrentUrl());
         throw new \Exception("Failed to log in as user \"{$account->name}\".");
       }
 
@@ -234,12 +231,8 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
       foreach ($roles as $role) {
         if (!in_array($role, $account->roles)) {
           $command = sprintf('user-add-role "%s" --name="%s" --pipe', $role, $account->name);
-          if ($result = $this->getDrush()->run($command)) {
-            $account = $this->parseDrushUserInfoString($result);
-          }
-          else {
-            throw new \Exception("Failed to add role \"{$role}\" to user with name \"{$account->name}\"");
-          }
+          $this->getDrush()->run($command);
+          $account->roles[] = $role;
         }
       }
 
@@ -254,7 +247,7 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
      * Use drush to retrieve information about a user by name.
      */
     protected function drushUserInfo($name) {
-      $command = sprintf('user-info "%s" --pipe', $name);
+      $command = sprintf('user-information "%s" --pipe', $name);
       if ($result = $this->getDrush()->run($command)) {
         return $this->parseDrushUserInfoString($result);
       }
