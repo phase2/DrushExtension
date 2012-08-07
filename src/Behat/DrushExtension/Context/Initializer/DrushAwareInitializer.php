@@ -9,6 +9,7 @@ use Behat\Behat\Context\Initializer\InitializerInterface,
     Behat\Behat\Event\ScenarioEvent,
     Behat\Behat\Event\OutlineEvent;
 
+use Behat\DrushExtension\Drush;
 use Behat\DrushExtension\Context\DrushAwareInterface;
 
 /**
@@ -17,16 +18,16 @@ use Behat\DrushExtension\Context\DrushAwareInterface;
  */
 class DrushAwareInitializer implements InitializerInterface, EventSubscriberInterface
 {
-    private $alias;
+    private $drush;
 
     /**
      * Initializes initializer.
      *
      * @param string $alias
      */
-    public function __construct($alias)
+    public function __construct(Drush $drush)
     {
-        $this->alias = $alias;
+        $this->drush = $drush;
     }
 
     /**
@@ -76,7 +77,7 @@ class DrushAwareInitializer implements InitializerInterface, EventSubscriberInte
      */
     public function initialize(ContextInterface $context)
     {
-        $context->setDrushAlias($this->alias);
+        $context->setDrush($this->drush);
     }
 
 }

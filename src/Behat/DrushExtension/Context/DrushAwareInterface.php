@@ -2,15 +2,17 @@
 
 namespace Behat\DrushExtension\Context;
 
+use Behat\DrushExtension\Drush;
+
 /**
  * Drush aware interface for contexts.
  */
 interface DrushAwareInterface
 {
     /**
-     * Sets Drush alias.
+     * Sets Drush instance.
      *
-     * @param string $alias Drush alias
+     * @param Drush $drush Drush instance.
      */
-    public function setDrushAlias($alias);
+    public function setDrush(Drush $drush);
 }

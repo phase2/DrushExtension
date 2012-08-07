@@ -2,6 +2,8 @@
 
 namespace Behat\DrushExtension\Context;
 
+use Behat\DrushExtension\Drush;
+
 use Behat\Behat\Context\BehatContext;
 
 /**
@@ -12,25 +14,25 @@ use Behat\Behat\Context\BehatContext;
  */
 class DrushContext extends BehatContext implements DrushAwareInterface
 {
-    private $drushAlias;
+    private $drush;
 
     /**
-     * Sets Drush alias.
+     * Sets Drush instance.
      *
-     * @param string $alias
+     * @param string $drush
      */
-    public function setDrushAlias($alias)
+    public function setDrush(Drush $drush)
     {
-        $this->drushAlias = $alias;
+        $this->drush = $drush;
     }
 
     /**
-     * Returns Drush alias.
+     * Returns Drush instance.
      *
      * @return string
      */
-    public function getDrushAlias()
+    public function getDrush()
     {
-        return $this->drushAlias;
+        return $this->drush;
     }
 }
