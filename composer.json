@@ -1,5 +1,5 @@
 {
-    "name": "behat/drush-extension",
+    "name": "zroger/drush-extension",
     "authors": [
         {
             "name": "Roger López",
