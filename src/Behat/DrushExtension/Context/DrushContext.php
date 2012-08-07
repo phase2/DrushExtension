@@ -4,9 +4,6 @@ namespace Behat\DrushExtension\Context;
 
 use Behat\Behat\Context\BehatContext;
 
-use Behat\Mink\Mink,
-    Behat\Mink\WebAssert;
-
 /**
  * Raw Drush context for Behat BDD tool.
  * Provides raw Drush integration (without step definitions) and web assertions.
@@ -22,7 +19,7 @@ class DrushContext extends BehatContext implements DrushAwareInterface
      *
      * @param string $alias
      */
-    public function setDrushAlias(string $alias)
+    public function setDrushAlias($alias)
     {
         $this->drushAlias = $drushAlias;
     }

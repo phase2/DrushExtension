@@ -9,8 +9,6 @@ use Behat\Behat\Context\Initializer\InitializerInterface,
     Behat\Behat\Event\ScenarioEvent,
     Behat\Behat\Event\OutlineEvent;
 
-use Behat\Mink\Mink;
-
 use Behat\DrushExtension\Context\DrushAwareInterface;
 
 /**
@@ -26,7 +24,7 @@ class DrushAwareInitializer implements InitializerInterface, EventSubscriberInte
      *
      * @param string $alias
      */
-    public function __construct(string $alias)
+    public function __construct($alias)
     {
         $this->alias = $alias;
     }

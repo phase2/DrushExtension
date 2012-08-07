@@ -12,5 +12,5 @@ interface DrushAwareInterface
      *
      * @param string $alias Drush alias
      */
-    public function setDrushAlias(Mink $mink);
+    public function setDrushAlias($alias);
 }
