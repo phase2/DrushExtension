@@ -21,7 +21,7 @@ class DrushContext extends BehatContext implements DrushAwareInterface
      */
     public function setDrushAlias($alias)
     {
-        $this->drushAlias = $drushAlias;
+        $this->drushAlias = $alias;
     }
 
     /**
