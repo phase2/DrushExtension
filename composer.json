@@ -1,9 +1,9 @@
 {
-    "name": "zroger/drush-extension",
+    "name": "phase2/drush-extension",
     "authors": [
         {
             "name": "Roger López",
-            "email": "code@zroger.com"
+            "email": "rlopez@phase2technology.com"
         }
     ],
 
