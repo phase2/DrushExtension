@@ -73,33 +73,8 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
      */
     public function beforeScenario($event) {
       if (isset($this->basic_auth)) {
-        $driver = $this->getSession()->getDriver();
-        if ($driver instanceof \Behat\Mink\Driver\Selenium2Driver) {
-          // Continue if this is a Selenium driver, since this is handled in
-          // locatePath().
-        }
-        else {
-          // Setup basic auth.
-          $this->getSession()->setBasicAuth($this->basic_auth['username'], $this->basic_auth['password']);
-        }
-      }
-    }
-
-    /**
-     * Override MinkContext::locatePath() to work around Selenium not supporting
-     * basic auth.
-     */
-    protected function locatePath($path) {
-      $driver = $this->getSession()->getDriver();
-      if ($driver instanceof \Behat\Mink\Driver\Selenium2Driver && isset($this->basic_auth)) {
-        // Add the basic auth parameters to the base url. This only works for
-        // Firefox.
-        $startUrl = rtrim($this->getMinkParameter('base_url'), '/') . '/';
-        $startUrl = str_replace('://', '://' . urlencode($this->basic_auth['username']) . ':' . urlencode($this->basic_auth['password']) . '@', $startUrl);
-        return 0 !== strpos($path, 'http') ? $startUrl . ltrim($path, '/') : $path;
-      }
-      else {
-        return parent::locatePath($path);
+        // Setup basic auth.
+        $this->getSession()->setBasicAuth($this->basic_auth['username'], $this->basic_auth['password']);
       }
     }
 
