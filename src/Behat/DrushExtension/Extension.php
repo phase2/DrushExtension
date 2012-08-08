@@ -21,14 +21,14 @@ class Extension extends BaseExtension {
    * @param ContainerBuilder $container ContainerBuilder instance
    */
   public function load(array $config, ContainerBuilder $container) {
-    $alias = empty($config['drush_alias']) ? '@self' : $config['drush_alias'];
-    $container->setParameter('behat.drush.drush_alias', $alias);
-
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/services'));
     $loader->load('core.xml');
 
     if (isset($config['drush_alias'])) {
       $container->setParameter('behat.drush.drush_alias', $config['drush_alias']);
+    }
+    if (isset($config['config_file'])) {
+      $container->setParameter('behat.drush.config_file', $config['config_file']);
     }
   }
 

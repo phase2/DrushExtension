@@ -6,11 +6,13 @@
         <parameter key="behat.drush.drush.class">Behat\DrushExtension\Drush</parameter>
         <parameter key="behat.drush.context.initializer.class">Behat\DrushExtension\Context\Initializer\DrushAwareInitializer</parameter>
         <parameter key="behat.drush.drush_alias">@self</parameter>
+        <parameter key="behat.drush.config_file"></parameter>
     </parameters>
     <services>
 
       <service id="behat.drush.drush" class="%behat.drush.drush.class%">
         <argument>%behat.drush.drush_alias%</argument>
+        <argument>%behat.drush.config_file%</argument>
       </service>
 
       <service id="behat.drush.context.initializer" class="%behat.drush.context.initializer.class%">
