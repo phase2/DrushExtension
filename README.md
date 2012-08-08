@@ -20,7 +20,7 @@ This extension requires:
 ### Through Composer
 
 1. Define dependencies in your composer.json:
-   ```javascript
+```javascript
    {
        "require": {
            ...
@@ -34,19 +34,20 @@ This extension requires:
          }
        ]
    }
-   ```
+```
+   
 2. Install/update your vendors
-   ```
+```
    $ curl http://getcomposer.org/installer | php
    $ php composer.phar install
-   ```
+```
 3. Activate extension in your behat.yml
-   ```yml
+```yml
    default:
      # ...
        extensions:
          Behat\DrushExtension\Extension: ~
-   ```
+```
 
 Usage
 ---
