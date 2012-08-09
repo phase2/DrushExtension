@@ -214,7 +214,7 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
       $command = sprintf('user-create "%s" --password="%s" --mail="%s" --pipe', $name, $pass, $mail);
 
       if ($result = $this->getDrush()->run($command)) {
-        $account = $this->parseDrushUserInfoString($result);
+        $account = $this->parseDrushUserInfoString($result, $name);
       }
       else {
         throw new \Exception("Failed to create user with name \"{$name}\" and pass \"{$pass}\".");
@@ -249,7 +249,7 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
     protected function drushUserInfo($name) {
       $command = sprintf('user-information "%s" --pipe', $name);
       if ($result = $this->getDrush()->run($command)) {
-        return $this->parseDrushUserInfoString($result);
+        return $this->parseDrushUserInfoString($result, $name);
       }
       else {
         throw new \Exception("Failed to retrieve info for user with name \"{$name}\"");
@@ -263,18 +263,29 @@ class DrushMinkContext extends MinkContext implements DrushAwareInterface
      * @param string $string String returned from `drush user-* --pipe` commands.
      *   This string should look like name,uid,mail,status,"role,another role,etc"
      *
+     * @param string $name The user name as requested in the Drush command.  This
+     *   is required so that we can do some cleaning of the returned string to
+     *   filter out the cruft that Drush gets over SSH since it redirects
+     *   STDERR to STDOUT.
+     *
      * @return An object containing properties of name, uid, mail, status and roles.
      */
-    protected function parseDrushUserInfoString($string) {
-      $account = new \stdClass();
-      list($account->name,
-           $account->uid,
-           $account->mail,
-           $account->status,
-           $account->roles) = explode(",", trim($string), 5);
-      $account->roles = explode(',', trim($account->roles, '"'));
+    protected function parseDrushUserInfoString($string, $name) {
+      $lines = array_map('trim', explode("\n", trim($string)));
+      foreach ($lines as $line) {
+        if (strpos($line, $name) === 0) {
+          $account = new \stdClass();
+          list($account->name,
+               $account->uid,
+               $account->mail,
+               $account->status,
+               $account->roles) = explode(",", $line, 5);
+          $account->roles = explode(',', trim($account->roles, '"'));
+          return $account;
+        }
+      }
 
-      return $account;
+      return FALSE;
     }
 
 }
